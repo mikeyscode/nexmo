@@ -92,11 +92,6 @@ func (n *Nexmo) SendSMS(from, to string, options SMSOptions) (SMSResponseInterfa
 		return nil, fmt.Errorf("unable to encode payload as json: %v", err)
 	}
 
-	// @TODO are we missing something in here?
-	// if err != nil {
-	// 	return nil, fmt.Errorf("unable to create query string: %v", err)
-	// }
-
 	req, err := http.NewRequest("POST", SendMessageEndpoint, bytes.NewBuffer(payload))
 	if err != nil {
 		return nil, fmt.Errorf("unable to create post request: %v", err)
