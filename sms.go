@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// SendMessageEndpoint ...
+// SendMessageEndpoint is the Nexmo API endpoint for sending an outgoing SMS
 const SendMessageEndpoint = "https://rest.nexmo.com/sms/json"
 
 // SMSResponseInterface is the response interface for SMS
@@ -47,7 +47,7 @@ const (
 	Forward
 )
 
-// OutboundSMSPayload ...
+// OutboundSMSPayload is the full request body expected for the Send SMS endpoint
 type OutboundSMSPayload struct {
 	Key                  string `json:"api_key"`
 	Secret               string `json:"api_secret,omitempty"`
@@ -61,7 +61,7 @@ type OutboundSMSPayload struct {
 	MessageClass         int    `json:"message-class,omitempty"`
 }
 
-// SMSOptions ...
+// SMSOptions is the optional request body elements for the Send SMS endpoint
 type SMSOptions struct {
 	Text                 string `json:"text,omitempty"`
 	TTL                  int    `json:"ttl,omitempty"`
