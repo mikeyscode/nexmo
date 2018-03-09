@@ -54,7 +54,7 @@ func (n *Nexmo) SendSMS(to, from string, options SMSOptions) (messageDetail *Mes
 
 	err = json.Unmarshal([]byte(respBody), &messageDetail)
 	if err != nil {
-		return nil, fmt.Errorf("unablet o decode response body: %v", err)
+		return nil, fmt.Errorf("unable to decode response body: %v", err)
 	}
 
 	return messageDetail, nil

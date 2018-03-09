@@ -1,7 +1,7 @@
 package nexmo
 
 // SendMessageEndpoint ...
-const SendMessageEndpoint = "https://rest.nexmo.com /sms/json"
+const SendMessageEndpoint = "https://rest.nexmo.com/sms/json"
 
 // MessageDetail contains information about a sent message
 type MessageDetail struct {
