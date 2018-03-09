@@ -35,8 +35,11 @@ const (
 
 // OutboundSMSPayload ...
 type OutboundSMSPayload struct {
-	From                 string           `json:"from"`
+	Key                  string           `json:"api_key"`
+	Secret               string           `json:"api_secret,omitempty"`
+	Signature            string           `json:"sig,omitempty"`
 	To                   string           `json:"to"`
+	From                 string           `json:"from"`
 	Text                 string           `json:"text,omitempty"`
 	TTL                  int              `json:"ttl,omitempty"`
 	StatusReportRequired bool             `json:"status-report-req,omitempty"`
