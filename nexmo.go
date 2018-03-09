@@ -36,7 +36,13 @@ func (n *Nexmo) SendSMS(to, from string, options SMSOptions) (messageDetail *Mes
 		return nil, fmt.Errorf("unable to encode payload as json: %v", err)
 	}
 
-	req, err := http.NewRequest("POST", SendMessageEndpoint, bytes.NewBuffer(payload))
+	queryString, err := n.Authorisation.buildQueryString()
+	if err != nil {
+		return nil, fmt.Errorf("unable to create query string: %v", err)
+	}
+
+	endpoint := SendMessageEndpoint + queryString
+	req, err := http.NewRequest("POST", endpoint, bytes.NewBuffer(payload))
 	if err != nil {
 		return nil, fmt.Errorf("unable to create post request: %v", err)
 	}
@@ -51,6 +57,8 @@ func (n *Nexmo) SendSMS(to, from string, options SMSOptions) (messageDetail *Mes
 	if err != nil {
 		return nil, fmt.Errorf("unable to read response body: %v", err)
 	}
+
+	fmt.Println(string(respBody))
 
 	err = json.Unmarshal([]byte(respBody), &messageDetail)
 	if err != nil {
