@@ -4,9 +4,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/mikeyscode/nexmo"
+	"github.com/stretchr/testify/assert"
 	gock "gopkg.in/h2non/gock.v1"
 )
 
