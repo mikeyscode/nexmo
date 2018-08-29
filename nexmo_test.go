@@ -7,7 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-//
 func TestSetupWithKeyAndSecret(t *testing.T) {
 	n := nexmo.Nexmo{}
 	n.Setup(nexmo.Auth{Key: "foo", Secret: "bar"})
