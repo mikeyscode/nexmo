@@ -15,11 +15,13 @@ const (
 
 var auth Authable
 
+// Authable is the expected implementation auth methods should follow to give access to a key and secret
 type Authable interface {
 	Key() string
 	Secret() string
 }
 
+// Options contains the list of options that are available when sending an sms
 type Options struct {
 	Text                 string `json:"text,omitempty"`
 	TTL                  int    `json:"ttl,omitempty"`
@@ -56,11 +58,15 @@ type request struct {
 	MessageClass         int    `json:"message-class,omitempty"`
 }
 
+// Auth sets up the authentication credentials to be used for subsequent requests
 func Auth(a Authable) {
 	auth = a
 }
 
-func Send(to, from string, options Options) (interface{}, error) {
+// Send will attempt to send an SMS message through Nexmo's API
+func Send(to, from string, options Options) (MessageDetail, error) {
+	var messageDetail = MessageDetail{}
+
 	requestBody := request{
 		Key:                  auth.Key(),
 		Secret:               auth.Secret(),
@@ -75,12 +81,12 @@ func Send(to, from string, options Options) (interface{}, error) {
 
 	payload, err := json.Marshal(requestBody)
 	if err != nil {
-		return nil, fmt.Errorf("unable to encode payload as json: %v", err)
+		return messageDetail, fmt.Errorf("unable to encode payload as json: %v", err)
 	}
 
 	req, err := http.NewRequest(http.MethodPost, messageEndpoint, bytes.NewBuffer(payload))
 	if err != nil {
-		return nil, fmt.Errorf("unable to create post request: %v", err)
+		return messageDetail, fmt.Errorf("unable to create post request: %v", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
 
@@ -88,18 +94,17 @@ func Send(to, from string, options Options) (interface{}, error) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("unable to process post request: %v", err)
+		return messageDetail, fmt.Errorf("unable to process post request: %v", err)
 	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("unable to read response body: %v", err)
+		return messageDetail, fmt.Errorf("unable to read response body: %v", err)
 	}
 
-	var messageDetail = &MessageDetail{}
-	if err = json.Unmarshal([]byte(body), messageDetail); err != nil {
-		return nil, fmt.Errorf("unable to decode response body: %v", err)
+	if err = json.Unmarshal([]byte(body), &messageDetail); err != nil {
+		return messageDetail, fmt.Errorf("unable to decode response body: %v", err)
 	}
 
 	return messageDetail, nil
