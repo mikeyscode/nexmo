@@ -1,22 +1,17 @@
 # nexmo
-<p align="center">
-    <a href="https://godoc.org/github.com/mikeyscode/nexmo"><img src="https://godoc.org/github.com/mikeyscode/nexmo?status.svg" alt="GoDoc"></a>
-</p>
 
-Go wrapper for the Nexmo Library
+<a href="https://godoc.org/github.com/mikeyscode/nexmo"><img src="https://godoc.org/github.com/mikeyscode/nexmo?status.svg" alt="GoDoc"></a>
 
-#### Usage
+An API wrapper for the Nexmo library crafted in Go. 
 
+## Usage
+
+**Sending an SMS Message**
 ```
-auth := nexmo.Auth{Key: "<apikey>", Secret: "<apisecret>"}
+auth := auth.New("<key>", "<secret>")
+sms.Auth(auth)
 
-err := nexmo.Setup(auth)
-if err != nil {
-	panic(err)
-}
-message, err := nexmo.Nexmo.SendSMS("4401234567890", "Mikey's Phone", nexmo.SMSOptions{
-	Text: "Hello World, this text was sent from Nexmo",
-})
+message, err := sms.Send("<to>", "<from>", sms.Options{Text: "Hello Gophers"})
 if err != nil {
 	panic(err)
 }
