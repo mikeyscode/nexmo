@@ -8,7 +8,7 @@ import (
 	"github.com/mikeyscode/nexmo/auth"
 )
 
-func TestNewAuth(t *testing.T) {
+func TestNew(t *testing.T) {
 	auth := auth.New("foo", "bar")
 
 	assert.Equal(t, "foo", auth.Key())
