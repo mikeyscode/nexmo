@@ -49,5 +49,5 @@ func TestSend(t *testing.T) {
 		t.Errorf("response was not returned due to error: %v", err)
 	}
 
-	assert.Equal(t, &mockResponse, resp)
+	assert.Equal(t, mockResponse, resp)
 }
